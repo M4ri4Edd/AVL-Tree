@@ -96,36 +96,33 @@ struct No* Excluir(struct No* raiz,int dado)
 
 	else if(dado > raiz->dado)
 		raiz->direita = Excluir(raiz->direita,dado);
-
 	else
 	{
-		if(raiz->direita==NULL && raiz->esquerda==NULL)
+		if (raiz->direita == NULL && raiz->esquerda == NULL)
 		{
 			free(raiz);
 			raiz = NULL;
 		}
-
-		else if(raiz->esquerda!=NULL && raiz->direita==NULL)
+		else if (raiz->esquerda != NULL && raiz->direita == NULL)
 		{
 			struct No* temp = raiz->esquerda;
-			raiz = raiz->esquerda;
-			free(temp);
+			free(raiz);
+			raiz = temp;
 		}
-
-		else if(raiz->direita!=NULL && raiz->esquerda==NULL)
+		else if (raiz->direita != NULL && raiz->esquerda == NULL)
 		{
 			struct No* temp = raiz->direita;
-			raiz = raiz->direita;
-			free(temp);
+			free(raiz);
+			raiz = temp;
 		}
-
 		else
 		{
 			struct No* temp = EncontrarMinimo(raiz->direita);
 			raiz->dado = temp->dado;
-			raiz->direita = Excluir(raiz->direita,temp->dado);
+			raiz->direita = Excluir(raiz->direita, temp->dado); // Excluir o nó mínimo
 		}
 	}
+
 	if(raiz==NULL)
 		return raiz;
 
@@ -237,7 +234,6 @@ int main()
 	raiz = Inserir(raiz,68);
 	raiz = Inserir(raiz,39);
 	raiz = Inserir(raiz,62);
-	raiz = Inserir(raiz,7);
 	raiz = Inserir(raiz,60);
 	raiz = Inserir(raiz,43);
 	raiz = Inserir(raiz,16);
@@ -266,7 +262,6 @@ int main()
 	raiz = Excluir(raiz,16);
 	raiz = Excluir(raiz,43);
 	raiz = Excluir(raiz,60);
-	raiz = Excluir(raiz,7);
 	raiz = Excluir(raiz,62);
 	raiz = Excluir(raiz,39);
 	raiz = Excluir(raiz,68);
@@ -292,6 +287,6 @@ int main()
 							
 	*/
 
-	printf("\nTravessia pre-ordem apos excluir 50, 95, 70, 60, 35 : "); preordem(raiz);
+	printf("\nTravessia pre-ordem apos exclusao: "); preordem(raiz);
 	return 0;
 }

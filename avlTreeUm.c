@@ -1,6 +1,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 
+//define a estrutura do nó
 struct No
 {
 	int dado;
@@ -8,7 +9,7 @@ struct No
 	struct No* esquerda;
 	struct No* direita;
 };
-//Inserção e exclusão em Árvore AVL
+//criação de um novo nó
 struct No* NovoNo(int dado)
 {
 	struct No* temp = (struct No*)malloc(sizeof(struct No));
@@ -18,7 +19,12 @@ struct No* NovoNo(int dado)
 	temp->altura = 1;
 	return temp;
 }
-
+/*
+Auxiliares:
+	Máximo - Retorna o maior entre dois números
+	Altura - Retorna a altura de um nó na árvore
+	Balanceamento - Calcula o fator de balanceamento de um nó
+*/
 int maximo(int a,int b)
 {
  	return (a>b)?a:b;
@@ -39,6 +45,8 @@ int Balanceamento(struct No* no)
 
  	return altura(no->esquerda) - altura(no->direita);
 }
+
+//Rotações
 
 struct No* RotacaoEsquerda(struct No* z)
 {
@@ -68,6 +76,8 @@ struct No* RotacaoDireita(struct No* z)
 	return y;
 }
 
+//Travessia
+
 void preordem(struct No* raiz)
 {
 	if(raiz==NULL)
@@ -78,6 +88,8 @@ void preordem(struct No* raiz)
 	preordem(raiz->direita);
 }
 
+//Encontra o nó com o menor valor na subárvore direita a partir de um nó dado.
+
 struct No* EncontrarMinimo(struct No* no)
 {
 	while(no->esquerda!=NULL)
@@ -85,6 +97,8 @@ struct No* EncontrarMinimo(struct No* no)
 
 	return no;
 }
+
+//Excluir um nó
 
 struct No* Excluir(struct No* raiz,int dado)
 {
@@ -96,36 +110,33 @@ struct No* Excluir(struct No* raiz,int dado)
 
 	else if(dado > raiz->dado)
 		raiz->direita = Excluir(raiz->direita,dado);
-
 	else
 	{
-		if(raiz->direita==NULL && raiz->esquerda==NULL)
+		if (raiz->direita == NULL && raiz->esquerda == NULL)
 		{
 			free(raiz);
 			raiz = NULL;
 		}
-
-		else if(raiz->esquerda!=NULL && raiz->direita==NULL)
+		else if (raiz->esquerda != NULL && raiz->direita == NULL)
 		{
 			struct No* temp = raiz->esquerda;
-			raiz = raiz->esquerda;
-			free(temp);
+			free(raiz);
+			raiz = temp;
 		}
-
-		else if(raiz->direita!=NULL && raiz->esquerda==NULL)
+		else if (raiz->direita != NULL && raiz->esquerda == NULL)
 		{
 			struct No* temp = raiz->direita;
-			raiz = raiz->direita;
-			free(temp);
+			free(raiz);
+			raiz = temp;
 		}
-
 		else
 		{
 			struct No* temp = EncontrarMinimo(raiz->direita);
 			raiz->dado = temp->dado;
-			raiz->direita = Excluir(raiz->direita,temp->dado);
+			raiz->direita = Excluir(raiz->direita, temp->dado); // Excluir o nó mínimo
 		}
 	}
+
 	if(raiz==NULL)
 		return raiz;
 
@@ -156,6 +167,8 @@ struct No* Excluir(struct No* raiz,int dado)
 	}
 	return raiz;
 }
+
+//Inserir um nó
 
 struct No* Inserir(struct No* raiz,int dado)
 {

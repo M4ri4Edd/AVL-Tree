@@ -56,7 +56,7 @@ struct No* RotacaoEsquerda(struct No* z)
 	y->esquerda = z;
 	z->direita = t2;
 
-	z->altura = maximo(altura(z->esquerda),altura(z->direita))+1;
+	z->altura = maximo(altura(z->esquerda),altura(z->direita))+1; //uso do auxiliar máximo
 	y->altura = maximo(altura(y->esquerda),altura(y->direita))+1;
 
 	return y;
@@ -70,7 +70,7 @@ struct No* RotacaoDireita(struct No* z)
 	y->direita = z;
 	z->esquerda = t3;
 
-	z->altura = maximo(altura(z->esquerda),altura(z->direita))+1;
+	z->altura = maximo(altura(z->esquerda),altura(z->direita))+1; //uso do auxiliar máximo
 	y->altura = maximo(altura(y->esquerda),altura(y->direita))+1;
 
 	return y;
@@ -131,7 +131,7 @@ struct No* Excluir(struct No* raiz,int dado)
 		}
 		else
 		{
-			struct No* temp = EncontrarMinimo(raiz->direita);
+			struct No* temp = EncontrarMinimo(raiz->direita); 
 			raiz->dado = temp->dado;
 			raiz->direita = Excluir(raiz->direita, temp->dado); // Excluir o nó mínimo
 		}
@@ -142,7 +142,7 @@ struct No* Excluir(struct No* raiz,int dado)
 
 	raiz->altura = 1 + maximo(altura(raiz->esquerda),altura(raiz->direita));
 
-	int balanceamento = Balanceamento(raiz);
+	int balanceamento = Balanceamento(raiz); //uso do balanceamento
 
 	//Caso Esquerda Esquerda
 	if(balanceamento > 1 && Balanceamento(raiz->esquerda) >=0)
@@ -186,7 +186,7 @@ struct No* Inserir(struct No* raiz,int dado)
 
 	raiz->altura = maximo(altura(raiz->esquerda),altura(raiz->direita))+1;
 
-	int balanceamento = Balanceamento(raiz);
+	int balanceamento = Balanceamento(raiz); //uso do balanceamento
 
 	// Caso Esquerda Esquerda
 	if(balanceamento > 1 && dado < raiz->esquerda->dado)
